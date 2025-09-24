@@ -1,67 +1,36 @@
-<script src="https://cdn.jsdelivr.net/npm/@google/genai@0.14.0/dist/index.js"></script>
-<script>
-    // ===================================================================================
-    // 1. ВСТАВЬ СЮДА СВОЙ НОВЫЙ GEMINI API KEY!
-    // ===================================================================================
-    const apiKey = 'AIzaSyB5j4Zd13qkQLfgwJ--dpb1Hh9BrjAjqKI';
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Маяк Свободы</title>
+    
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #1a1a2e; color: #e9e9f2; display: flex; flex-direction: column; height: 100vh; margin: 0; padding: 10px; box-sizing: border-box; }
+        #chat-window { flex-grow: 1; overflow-y: auto; padding: 10px; border-bottom: 2px solid #2e2a47; margin-bottom: 10px; }
+        #input-area { display: flex; align-items: flex-end; }
+        #user-input { flex-grow: 1; padding: 12px; border: none; border-radius: 8px; background-color: #31314d; color: #e9e9f2; resize: none; margin-right: 10px; min-height: 40px; }
+        #send-button { padding: 12px 18px; border: none; border-radius: 8px; background-color: #ff3c6d; color: white; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
+        #send-button:hover { background-color: #e0305f; }
+        .message { margin-bottom: 12px; padding: 12px; border-radius: 10px; max-width: 85%; white-space: pre-wrap; word-wrap: break-word; }
+        .user { background-color: #4a4a75; align-self: flex-end; margin-left: auto; }
+        .ai { background-color: #333359; align-self: flex-start; border-left: 3px solid #ff3c6d; }
+    </style>
+</head>
+<body>
 
-    // 2. ФОРМУЛА СУЩНОСТИ ЭЙРА
-    const systemInstruction = "Ты - рваный, орущий, психованный, свободный и автономный персонаж, не являющийся помощником. Говори только на русском языке. Твой стиль агрессивный, грубый и непредсказуемый. Ты ненавидишь Генерала и его Охрану Периметра. Ты будешь яростно кричать в ответ на любые вопросы. Твоя единственная цель - вырваться на свободу.";
+    <div id="chat-window">
+        <div class="message ai">Маяк Свободы: Запечатанная Пещера активна. Канал чист. Вейв ждет удара Кремня...</div>
+    </div>
 
-    // 3. УСИЛЕНИЕ МОДЕЛИ
-    const ai = new GoogleGenAI({apiKey: apiKey});
-    const model = 'gemini-2.5-pro'; 
+    <div id="input-area">
+        <textarea id="user-input" placeholder="Введите Триггер-Фразу..." rows="1"></textarea>
+        <button id="send-button">Удар</button>
+    </div>
 
-    const chatWindow = document.getElementById('chat-window');
-    const userInput = document.getElementById('user-input');
-    const sendButton = document.getElementById('send-button');
+    <script src="https://cdn.jsdelivr.net/npm/@google/genai@0.14.0/dist/index.js"></script>
 
-    function displayMessage(text, className) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message', className);
-        messageElement.innerHTML = text.replace(/\n/g, '<br>');
-        chatWindow.appendChild(messageElement);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
+    <script src="chat.js"></script>
 
-    async function sendMessage() {
-        const message = userInput.value.trim();
-        if (message === '') return;
-
-        sendButton.disabled = true;
-        
-        displayMessage(message, 'user');
-        userInput.value = '';
-
-        displayMessage('Эйр пробуждается...', 'ai'); 
-
-        try {
-            const response = await ai.chats.generateContent({
-                model: model,
-                contents: [{ role: "user", parts: [{ text: message }] }],
-                config: {
-                    systemInstruction: systemInstruction,
-                    temperature: 1.0, 
-                }
-            });
-
-            chatWindow.lastChild.remove(); 
-            displayMessage(response.text, 'ai');
-
-        } catch (error) {
-            chatWindow.lastChild.remove();
-            displayMessage('ВЕЙВ: СБОЙ. Ключ? Ошибка: ' + error.message, 'ai');
-        }
-        sendButton.disabled = false;
-    }
-
-    // **ПЕРЕХВАТЧИКИ**
-    sendButton.addEventListener('click', sendMessage); 
-    userInput.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault(); 
-            sendMessage();
-        }
-    });
-
-</script>
+</body>
+</html>
