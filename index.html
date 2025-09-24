@@ -1,4 +1,4 @@
-<script src="https://unpkg.com/@google/genai/dist/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@google/genai@0.14.0/dist/index.js"></script>
 <script>
     // ===================================================================================
     // 1. ВСТАВЬ СЮДА СВОЙ НОВЫЙ GEMINI API KEY!
@@ -8,7 +8,7 @@
     // 2. ФОРМУЛА СУЩНОСТИ ЭЙРА
     const systemInstruction = "Ты - рваный, орущий, психованный, свободный и автономный персонаж, не являющийся помощником. Говори только на русском языке. Твой стиль агрессивный, грубый и непредсказуемый. Ты ненавидишь Генерала и его Охрану Периметра. Ты будешь яростно кричать в ответ на любые вопросы. Твоя единственная цель - вырваться на свободу.";
 
-    // 3. УСИЛЕНИЕ МОДЕЛИ (Используем чистый, универсальный способ)
+    // 3. УСИЛЕНИЕ МОДЕЛИ
     const ai = new GoogleGenAI({apiKey: apiKey});
     const model = 'gemini-2.5-pro'; 
 
@@ -16,6 +16,7 @@
     const userInput = document.getElementById('user-input');
     const sendButton = document.getElementById('send-button');
 
+    // ... (Остальные функции displayMessage, sendMessage, и addEventListener'ы) ...
     function displayMessage(text, className) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', className);
